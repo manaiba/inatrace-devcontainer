@@ -1,0 +1,25 @@
+# repos.txt — one Git repository per line. Blank lines and lines starting
+# with "#" are ignored.
+#
+# Format:
+#   <git-url>            [optional-target-dir]
+#
+#   <git-url>    : SSH (git@github.com:org/repo.git) or HTTPS URL.
+#   target-dir   : optional folder name created under src/. Defaults to the
+#                  repo name (URL basename without the trailing ".git").
+#
+# Examples:
+#   git@github.com:org/repo.git
+#   https://github.com/org/other.git   other-renamed
+#
+# These are the UPSTREAM (agstack) repos, which is what `origin` points at in an
+# existing checkout. Work happens on the `manaiba` forks, which setup.sh does
+# not add — after a fresh clone, add the fork by hand where you need it:
+#
+#   git -C src/inatrace-backend remote add manaiba \
+#       git@github.com:manaiba/inatrace-backend.git
+
+git@github.com:agstack/inatrace-backend.git
+git@github.com:agstack/inatrace-frontend.git
+git@github.com:agstack/inatrace-mobile.git
+git@github.com:agstack/inatrace.git

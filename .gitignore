@@ -1,0 +1,28 @@
+# --- Cloned repositories (each versioned independently) ---
+# setup.sh clones the repos into src/ (which is mounted at /src in the
+# container). Ignore everything under src/ EXCEPT the workspace's own files,
+# so the cloned repos are never tracked here regardless of their names.
+/src/*
+!/src/.gitignore
+!/src/CLAUDE.md
+!/src/repos.txt
+!/src/setup.sh
+!/src/setup-desktop.sh
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editors / IDE ---
+.idea/
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/extensions.json
+
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example

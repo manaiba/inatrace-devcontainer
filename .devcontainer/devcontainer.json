@@ -1,0 +1,37 @@
+{
+  "name": "multi-repo-workspace",
+
+  // A single-service Compose stack: `app`, the toolchain image. It runs a
+  // Docker daemon of its own, so MySQL and friends are nested containers rather
+  // than sibling services. Everything about the container itself — the build,
+  // the mounts, the published ports, the environment — lives in compose.yaml,
+  // because `mounts`, `appPort` and `containerEnv` are NOT honoured for
+  // Compose-based dev containers.
+  "dockerComposeFile": "compose.yaml",
+  "service": "app",
+
+  // The single workspace mount (host ./src -> /src) is declared in compose.yaml.
+  "workspaceFolder": "/src",
+
+  // Run everything as the non-root `dev` user created in the Dockerfile.
+  "remoteUser": "dev",
+
+  // VS Code UI labels only. The ports are actually PUBLISHED by compose.yaml,
+  // so they work with the `devcontainer` CLI / plain Docker too.
+  "forwardPorts": [9000, 9080, 9081],
+  "portsAttributes": {
+    "9000": { "label": "Backend" },
+    "9080": { "label": "Frontend" },
+    "9081": { "label": "Mobile (Expo Metro)" }
+  },
+
+  // Runs on the HOST before the stack is created: makes sure every bind-mount
+  // source in compose.yaml exists (so Docker doesn't shadow the desktop sockets
+  // with root-owned directories), and writes the .env that compose.yaml
+  // interpolates its host paths from.
+  "initializeCommand": "bash .devcontainer/initialize.sh",
+
+  // On create: clone the repos listed in repos.txt into /src, then wire up the
+  // host desktop bridges for Claude (browser MCP server + voice input).
+  "postCreateCommand": "chmod +x setup.sh setup-desktop.sh && ./setup.sh && ./setup-desktop.sh"
+}
